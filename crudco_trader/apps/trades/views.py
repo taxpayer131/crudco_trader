@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, HttpResponse
 
 # Create your views here.
 def add(request):
-    return HttpResponse("view a form to add a new trade")
+    return render(request, 'trades/new.html')
 def create(request):
     return HttpResponse("process adding a new form")
 def edit(request):
