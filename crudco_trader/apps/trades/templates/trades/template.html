@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CrudCo Trader</title>
+    {% load static %}
+    <link rel="stylesheet"
+    8href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+  </head>
+  <body>
+    <nav>
+      <h1>CrudCo Trader</h1>
+      <a href="/">Home</a>
+      <a href="/trades/new">New Trade</a>
+      <a href="/trades/mine"> My Trades</a>
+      <a href="/logout">Logout</a>
+    </nav>
+    {%block content%}
+    {%endblock%}
+  </body>
+</html>
