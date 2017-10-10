@@ -10,8 +10,6 @@ class TradeManager(models.Manager):
             errors ['item'] = "Item name required"
         if len(post_data['item']) < 5:
             errors ['item'] = "Item name too short"
-        if len(post_data['category']) < 1:
-            errors ['category'] = "Category required"
         if len(post_data['description']) < 1:
             errors['description'] = "Description required"
         if len(post_data['description']) < 10:
@@ -23,7 +21,7 @@ class Trade(models.Model):
     originator = models.ForeignKey('users.User', related_name = "my_trades")
     recipient = models.ForeignKey('users.User', related_name = "trades")
     item = models.CharField(max_length = 50)
-    status = models.IntegerField(max_length = 5)
+    status = models.IntegerField()
     category = models.CharField(max_length = 100)
     description = models.CharField(max_length = 255)
     created_at = models.DateTimeField(auto_now_add = True)
