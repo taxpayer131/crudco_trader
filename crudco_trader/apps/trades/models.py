@@ -9,7 +9,7 @@ class TradeManager(models.Manager):
         errors = {}
         if len(postData['item']) < 1:
             errors ['item'] = "Item name required"
-        if len(postData['item']) < 5:
+        if len(postData['item']) < 3:
             errors ['item'] = "Item name too short"
         if len(postData['description']) < 1:
             errors['description'] = "Description required"
