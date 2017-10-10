@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from .forms import LoginForm, RegistrationForm
 from .models import User
+from ..trades.models import Trade
 import bcrypt
 
 # Create your views here.
@@ -48,21 +49,29 @@ def create(request):
         request.session['id'] = temp.id
         return redirect('../trades/')
     return HttpResponse("create create create a user")
-def profile(request):
+def profile(request, user_id):
     id = request.session['id']
-    user = User.objects.get(id = id)
+    user = User.objects.get(id = user_id)
+    mytrades = Trade.objects.filter(originator = user)
+    available = mytrades.filter(status = 'active')
+    mypending = mytrades.filter(status = 'pending')
+    completed = mytrades.filter(status = 'completed')
+    pending = Trade.objects.filter(recipient = user)    
     context = {
         'id':id,
-        'name': user.first_name,
-        'user': user
+        'user': user,
+        'available': available,
+        'mypending': mypending,
+        'pending': pending,
+        'completed': completed,
     }
-    return render(request, 'users/profile.html')
+    return render(request, 'users/profile.html', context)
     return HttpResponse("view some info about a user")
 def edit(request):
     return HttpResponse("view a page to edit user profile..coming soon")
 def update(request):
     return HttpResponse("update the user db with new info...ariving after the edit view")
-def delete(request):
+def delete(request, user_id):
     return HttpResponse("delete your own account...ariving later than everything else...because...")
 def logout(request):
     del request.session['id']
