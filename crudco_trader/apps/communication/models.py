@@ -6,6 +6,8 @@ from django.db import models
 class CommentManager(models.Manager):
     def creation_validator(self,postData):
         errors = {}
+        if len(postData['comment']) < 1:
+            errors['comment'] = "Missing comment"
         return errors
 
 # Create your models here.

@@ -6,6 +6,16 @@ from django.db import models
 class TradeManager(models.Manager):
     def creation_validator(self,postData):
         errors = {}
+        if len(post_data['item']) < 1:
+            errors ['item'] = "Item name required"
+        if len(post_data['item']) < 5:
+            errors ['item'] = "Item name too short"
+        if len(post_data['category']) < 1:
+            errors ['category'] = "Category required"
+        if len(post_data['description']) < 1:
+            errors['description'] = "Description required"
+        if len(post_data['description']) < 10:
+            errors['description'] = "Description too short"
         return errors
 
 # Create your models here.
