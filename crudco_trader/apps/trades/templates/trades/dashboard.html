@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CrudCo Trader</title>
+    {% load static %}
+    <link rel="stylesheet"
+    8href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+  </head>
+  <body>
+    <nav>
+      <h1>CrudCo Trader</h1>
+      <a href="/trades/">Home</a>
+      <a href="/trades/add">New Trade</a>
+      <a href="/trades/mine"> My Trades</a>
+      <a href="/logout">Logout</a>
+    </nav>
+    <h1>Available Items</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>
+            Item
+          </th>
+          <th>
+            Category
+          </th>
+          <th>
+            Quantity
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for trade in trades%}
+        <tr>
+          <td>
+            <a href="/trades/show/{{trade.id}}">{{trade.item}}</a>
+          </td>
+          <td>
+            {{trade.category}}
+          </td>
+          <td>
+            {{trade.quantity}}
+          </td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </body>
+</html>

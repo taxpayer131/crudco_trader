@@ -5,9 +5,35 @@
     <title>New Trade</title>
     {%extends 'trades/template.html'%}
   </head>
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+          {{ message }}
+      </li>
+      {% endfor %}
+  </ul>
   <body>
     {%block content%}
     <h1>Add a Trade!!! :)</h1>
+    <form action="/trades/create" method = "post">
+      {%csrf_token%}
+      <p>Item Name: <input type="text" name="item"></p>
+      <p>Item Category: 
+        <select name="category">
+          <option value="grocery">Grocery</option>
+          <option value="paper">Paper Products</option>
+          <option value="cleaning">Cleaning Supplies</option>
+          <option value="automotive">Automotive</option>
+        </select>
+      </p>
+      <p>Item Description:
+        <textarea name="description" cols="90" rows="10"></textarea>
+      </p>
+      <p>
+        <input type="submit" name="submit">
+      </p>
+    </form>
     {%endblock%}
   </body>
 </html>

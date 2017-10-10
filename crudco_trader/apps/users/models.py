@@ -61,12 +61,12 @@ class UserManager(models.Manager):
         #check if user exists
         username = postData['username']
         usersearch = User.objects.filter(username = username)
-        if len(emailsearch) < 1:
-            errors['email']='User not found'
+        if len(usersearch) < 1:
+            errors['user']='User not found'
         #verify password
         else:
             pwd = postData['pwd']
-            temp = User.objects.get(email = email)
+            temp = User.objects.get(username = username)
             hashedpw = temp.password
             if not bcrypt.checkpw(pwd.encode(), hashedpw.encode()):
                 errors['password']='Unable to authenticate'
@@ -79,7 +79,7 @@ class User(models.Model):
     username = models.CharField(max_length=255)
     email = models.CharField(max_length = 255)
     password = models.CharField(max_length = 255)
-    user_level = models.IntegerField()
+    zipcode = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = UserManager()
