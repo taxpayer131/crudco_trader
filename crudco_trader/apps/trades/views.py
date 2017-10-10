@@ -22,8 +22,8 @@ def create(request):
         status = 'active'
         category = request.POST['category']
         description = request.POST['description']
-        Trade.objects.create(originator = originator, item = item, status = status, category = category, description = description)
-        return HttpResponse("Stuff")
+        quantity = request.POST['quantity']
+        Trade.objects.create(originator = originator, item = item, status = status, category = category, description = description, quantity = quantity)
         return redirect('/trades/')
     return HttpResponse("process adding a new form")
 def edit(request):
@@ -34,10 +34,13 @@ def delete(request):
     return HttpResponse("delete a trade")
 def read(request):
     user = User.objects.get(id = request.session['id'])
-    trades = Trade.objects.filter(status = 'active').exclude(originator = user)
+    print user.first_name
+    trades = Trade.objects.filter(status = 'active')
+    trades = trades.exclude(originator = user)
+    print trades.first().item
     context = {
-        'available': trades,
-        'user':user
+        'trades': trades,
+        'user': user
     }
     return render(request, 'trades/dashboard.html', context = context)
     return HttpResponse("view trade details")
