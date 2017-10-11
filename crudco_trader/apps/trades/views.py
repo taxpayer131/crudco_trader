@@ -34,31 +34,54 @@ def edit(request):
     return HttpResponse("view a page to edit trade info/status")
 def update(request):
     return HttpResponse("process/submit updated trade info")
+def receive(request, trade_id):
+    trade = Trade.objects.get(id = trade_id)
+    user = User.objects.get(id = request.session['id'])
+    if trade.originator == user:
+        return redirect('/trades/')
+    else:
+        trade.recipient = user
+        trade.status = 'pending'
+        trade.save()
+        return redirect('/trades/')
+def complete(request, trade_id):
+    trade = Trade.objects.get(id = trade_id)
+    user = User.objects.get(id = request.session['id'])
+    if trade.recipient is user:
+        trade.status = 'completed'
+        trade.save()
+        return redirect('/trades/')
+    else:
+        return redirect('/trades/')
+
 def delete(request, trade_id):
     user = User.objects.get(id = request.session['id'])
     trade = Trade.objects.get(id = trade_id)
-    if trade.originator == user:
+    if trade.originator is user:
         trade.delete()
     return redirect('/trades/')
 def show(request, trade_id):
     user = User.objects.get(id = request.session['id'])
     trade = Trade.objects.get(id = trade_id)
     if trade.originator == user:
-        print "Originator identified"
+        page = 1
     elif trade.recipient ==user:
-        print "Recipient located"
+        page = 2
     else:
-        print False
-    return HttpResponse("show a trade")
+        page = 3
+    context = {
+        'trade': trade,
+        'user': user,
+        'page': page,
+    }
+    return render(request, 'trades/trade.html', context)
 def read(request):
     user = User.objects.get(id = request.session['id'])
     print user.first_name
     trades = Trade.objects.filter(status = 'active')
     trades = trades.exclude(originator = user)
-    print trades.first().item
     context = {
         'trades': trades,
         'user': user
     }
     return render(request, 'trades/dashboard.html', context = context)
-    return HttpResponse("view trade details")

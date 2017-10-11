@@ -3,11 +3,22 @@
   <head>
     <meta charset="utf-8">
     <title>My Trades</title>
-    {%extends trades/template.html%}
+    {%extends 'trades/template.html'%}
   </head>
   <body>
     {%block content%}
-    <h1>My Trades!!!</h1>
+      <h1>Here is a trade!!!</h1>
+      <h2>Item: {{trade.item}}</h2>
+      <h2>Courtesy of: <a href="/profile/{{trade.originator.id}}">{{trade.originator.username}}</a></h2>
+      <h2>Quantity: {{trade.quantity}}</h2>
+      {%if trade.recipient is null%}
+      <h2><a href="/trades/receive/{{trade.id}}">Claim Trade</a></h2>
+      {%endif%}
+      {%if page is 2%}
+      <a href="/trades/complete/{{trade.id}}">Complete!!!</a>
+      {%elif page is 1%}
+      <a href="/trades/delete/{{trade.id}}">Delete!!!</a>
+      {%endif%}
     {%endblock%}
   </body>
 </html>
