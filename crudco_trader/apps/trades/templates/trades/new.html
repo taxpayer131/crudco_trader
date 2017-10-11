@@ -5,16 +5,18 @@
     <title>New Trade</title>
     {%extends 'trades/template.html'%}
   </head>
-  <ul class="messages">
-      {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-          {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-          {{ message }}
-      </li>
-      {% endfor %}
-  </ul>
   <body>
     {%block content%}
+    {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+              {{ message }}
+          </li>
+          {% endfor %}
+      </ul>
+    {% endif %}
     <h1>Add a Trade!!! :)</h1>
     <form action="/trades/create" method = "post">
       {%csrf_token%}
@@ -24,7 +26,22 @@
           <option value="grocery">Grocery</option>
           <option value="paper">Paper Products</option>
           <option value="cleaning">Cleaning Supplies</option>
-          <option value="automotive">Automotive</option>
+          <option value="auto">Automotive</option>
+          <option value="himprove">Home Improvement</option>
+        </select>
+      </p>
+      <p>Item Quantity: 
+        <select name="quantity">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
         </select>
       </p>
       <p>Item Description:
