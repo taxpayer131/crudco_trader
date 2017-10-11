@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+      {%extends 'users/template.html'%}
     <meta charset="utf-8">
     <title>CrudCo Trader - {{username}}</title>
   </head>
   <body>
+      {%block content%}
       <h1>User Name: {{user.username}}</h1>
       <h3>Joined: {{user.created_at}}</h3>
       <h3>Trades completed: {{trade_count}}</h3>
@@ -33,6 +35,6 @@
                 </div>
           </div>
       </div>
-
+      {%endblock%}
   </body>
 </html>

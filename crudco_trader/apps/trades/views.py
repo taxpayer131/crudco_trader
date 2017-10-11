@@ -47,7 +47,7 @@ def receive(request, trade_id):
 def complete(request, trade_id):
     trade = Trade.objects.get(id = trade_id)
     user = User.objects.get(id = request.session['id'])
-    if trade.recipient is user:
+    if trade.recipient == user:
         trade.status = 'completed'
         trade.save()
         return redirect('/trades/')
@@ -57,7 +57,7 @@ def complete(request, trade_id):
 def delete(request, trade_id):
     user = User.objects.get(id = request.session['id'])
     trade = Trade.objects.get(id = trade_id)
-    if trade.originator is user:
+    if trade.originator == user:
         trade.delete()
     return redirect('/trades/')
 def show(request, trade_id):

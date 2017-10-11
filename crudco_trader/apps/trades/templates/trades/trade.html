@@ -11,6 +11,7 @@
       <h2>Item: {{trade.item}}</h2>
       <h2>Courtesy of: <a href="/profile/{{trade.originator.id}}">{{trade.originator.username}}</a></h2>
       <h2>Quantity: {{trade.quantity}}</h2>
+      <h2>Description: {{trade.description}}</h2>
       {%if trade.recipient is null%}
       <h2><a href="/trades/receive/{{trade.id}}">Claim Trade</a></h2>
       {%endif%}
