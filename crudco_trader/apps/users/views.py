@@ -57,7 +57,7 @@ def profile(request, user_id):
     mypending = mytrades.filter(status = 'pending')
     completed = mytrades.filter(status = 'completed')
     pending = Trade.objects.filter(recipient = user)    
-    pending = Trade.objects.filter(status = 'pending')
+    pending = pending.filter(status = 'pending')
     context = {
         'id':id,
         'user': user,
