@@ -3,23 +3,45 @@
   <head>
     <meta charset="utf-8">
     <title>CrudCo Trader - New User</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
   </head>
   <body>
-    {% if messages %}
-      <ul class="messages">
-          {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-              {{ message }}
-          </li>
-          {% endfor %}
-      </ul>
-    {% endif %}
-    <form action="/create" method = 'post'>
-        {%csrf_token%}
-        {{form.as_p}}
-        <input type="submit" name="submit">
-    </form>
-    <a href="/">Already have an account? Login!</a>
+    <div class="container">
+      <nav class = 'row'>
+        <div class="one-third column">
+          <h1>CrudCo Trader</h1>
+        </div>
+        <div class="one-third column">
+          <h3>Welcome!</h3>
+        </div>
+        <div class="one-third column">
+          <a href="/"><button type="button" name="returning">Returning User</button></a>
+        </div>
+      </nav>
+      <div class="row">
+        <div class="one-half column">
+          <h5>About the trader</h5>
+          <p>This application is available for users to coordinate trading items. Users are responsible for all aspects of their trades.</p>
+          {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+        <div class="one-half column">
+          <form action="/create" method = 'post'>
+            {%csrf_token%}
+            {{form}}
+            <p><input type="submit" name="submit"></p>
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

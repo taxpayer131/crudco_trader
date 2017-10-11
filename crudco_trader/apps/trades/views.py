@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import messages
 from ..users.models import User
+from ..communication.models import Comment, CommentManager
 from .models import Trade
 from django.shortcuts import render, HttpResponse, redirect
 
@@ -29,7 +30,6 @@ def create(request):
         quantity = request.POST['quantity']
         Trade.objects.create(originator = originator, item = item, status = status, category = category, description = description, quantity = quantity)
         return redirect('/trades/')
-    return HttpResponse("process adding a new form")
 def edit(request):
     return HttpResponse("view a page to edit trade info/status")
 def update(request):
@@ -53,7 +53,6 @@ def complete(request, trade_id):
         return redirect('/trades/')
     else:
         return redirect('/trades/')
-
 def delete(request, trade_id):
     user = User.objects.get(id = request.session['id'])
     trade = Trade.objects.get(id = trade_id)
@@ -63,6 +62,7 @@ def delete(request, trade_id):
 def show(request, trade_id):
     user = User.objects.get(id = request.session['id'])
     trade = Trade.objects.get(id = trade_id)
+    comments = Comment.objects.filter(trade = trade)
     if trade.originator == user:
         page = 1
     elif trade.recipient ==user:
@@ -73,6 +73,7 @@ def show(request, trade_id):
         'trade': trade,
         'user': user,
         'page': page,
+        'comments': comments,
     }
     return render(request, 'trades/trade.html', context)
 def read(request):

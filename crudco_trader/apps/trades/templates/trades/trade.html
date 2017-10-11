@@ -13,13 +13,34 @@
       <h2>Quantity: {{trade.quantity}}</h2>
       <h2>Description: {{trade.description}}</h2>
       {%if trade.recipient is null%}
-      <h2><a href="/trades/receive/{{trade.id}}">Claim Trade</a></h2>
+        <a href="/trades/receive/{{trade.id}}">
+          <button type="button" name="claim">Claim Trade</button></a>
       {%endif%}
-      {%if page is 2%}
-      <a href="/trades/complete/{{trade.id}}">Complete!!!</a>
-      {%elif page is 1%}
-      <a href="/trades/delete/{{trade.id}}">Delete!!!</a>
+      {%if page is 1 or page is 2%}
+        {%if page is 2%}
+        <a href="/trades/complete/{{trade.id}}">
+          <button type="button" name="complete">Complete</button></a>
+        {%endif%}
+        {%if page is 1%}
+        <a href="/trades/delete/{{trade.id}}">
+          <button type="button" name="delete">Delete</button></a>
+        {%endif%}
+        <h3>Trade Coordination</h3>
+        <p>Please use the discussion area below to coordinate logistics of your trade.</p>
+        {%for comment in comments%}
+          <p>{{comment.commentator.username}} said {{comment.comment}} -
+          {{comment.created_at}}
+          {%if user.id == comment.commentator.id%}
+            <a href="/communication/delete/{{comment.id}}">Delete</a>
+          {%endif%}</p>
+        {%endfor%}
+        <form action="/communication/create/{{trade.id}}" method='post'>
+          {%csrf_token%}
+          <textarea name="comment" cols="90" rows="10"></textarea>
+          <p><input type="submit" name="submit" value="submit"></p>
+        </form>
       {%endif%}
+      <a href="/communication/create/{{trade.id}}">Create???</a>
     {%endblock%}
   </body>
 </html>

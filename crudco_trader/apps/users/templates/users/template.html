@@ -4,16 +4,33 @@
     <meta charset="utf-8">
     <title>CrudCo Trader</title>
     {% load static %}
-    <link rel="stylesheet"
-    8href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
   </head>
-  <body>
+  <body class = 'container'>
     <nav>
-      <h1>CrudCo Trader</h1>
-      <a href="/trades/">Home</a>
-      <a href="/trades/add">New Trade</a>
-      <a href="/profile/{{user.id}}"> My Trades</a>
-      <a href="/logout">Logout</a>
+      <div class="row">
+        <h1>CrudCo Trader</h1>
+      </div>
+      <div class = row>
+        <div class="four columns">
+          <h3>Person</h3>
+          {{person}}
+        </div>
+        <div class="eight columns">
+          <a href="/trades/">
+            <button type="button" name="home">Home</button>
+          </a>
+          <a href="/trades/add">
+            <button type="button" name="new">New Trade</button>
+          </a>
+          <a href="/profile/{{user.id}}">
+            <button type="button" name="mine">My Trades</button>
+          </a>
+          <a href="/logout">
+            <button type="button" name="logout">Logout</button>
+          </a>
+        </div>
+      </div>
     </nav>
     {%block content%}
     {%endblock%}

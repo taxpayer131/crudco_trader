@@ -3,19 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>CrudCo Trader</title>
-    {% load static %}
-    <link rel="stylesheet"
-    8href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    {%extends 'trades/template.html'%}
   </head>
   <body>
-    <nav>
-      <h1>CrudCo Trader</h1>
-      <a href="/trades/">Home</a>
-      <a href="/trades/add">New Trade</a>
-      <a href="/profile/{{user.id}}"> My Trades</a>
-      <a href="/logout">Logout</a>
-    </nav>
-    <h1>Available Items</h1>
+    {%block content%}
+    <h3>Available Items</h3>
     <table>
       <thead>
         <tr>
@@ -46,5 +38,6 @@
         {%endfor%}
       </tbody>
     </table>
+    {%endblock%}
   </body>
 </html>

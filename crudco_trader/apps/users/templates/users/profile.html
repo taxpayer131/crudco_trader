@@ -4,37 +4,45 @@
       {%extends 'users/template.html'%}
     <meta charset="utf-8">
     <title>CrudCo Trader - {{username}}</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
   </head>
   <body>
-      {%block content%}
-      <h1>User Name: {{user.username}}</h1>
-      <h3>Joined: {{user.created_at}}</h3>
-      <h3>Trades completed: {{trade_count}}</h3>
-      <div class = "container">
-          <div class = "row">
-              <div class = "one-third columns">
-                  <h3>Available Trades</h3>
-                  {%for trade in available%}
-                  <p><a href="/trades/show/{{trade.id}}">{{trade.item}}</a></p>
-                  {%endfor%}
-              </div>
-              <div class = "one-third columns">
-                    <h3>Pending Trades</h3>
-                    {%for trade in pending%}
-                    <p><a href="/trades/show/{{trade.id}}">{{trade.item}}</a></p>
-                    {%endfor%}
-                    {%for trade in mypending%}
-                    <p><a href="/trades/show/{{trade.id}}">{{trade.item}}</a></p>
-                    {%endfor%}
-                </div>
-                <div class = "one-third columns">
-                    <h3>Completed Trades</h3>
-                    {%for trade in completed%}
-                    <p><a href="/trades/show/{{trade.id}}">{{trade.item}}</a></p>
-                    {%endfor%}
-                </div>
+    {%block content%}
+      <div class="container">
+        <div class="row">
+          <div class="four columns">
+            <h4>User Name: {{user.username}}</h4>
+            <h5>Trades completed: {{trade_count}}</h5>
           </div>
+          <div class="eight columns">
+            <h4>Joined: {{user.created_at}}</h4>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "one-third column">
+            <h5>Available Trades</h5>
+            {%for trade in available%}
+            <p><a href="/trades/show/{{trade.id}}">{{trade.item}}</a></p>
+            {%endfor%}
+          </div>
+          <div class = "one-third column">
+            <h5>Pending Trades</h5>
+            {%for trade in pending%}
+            <p><a href="/trades/show/{{trade.id}}">{{trade.item}}</a></p>
+            {%endfor%}
+            {%for trade in mypending%}
+            <p><a href="/trades/show/{{trade.id}}">{{trade.item}}</a></p>
+            {%endfor%}
+          </div>
+          <div class = "one-third column">
+            <h5>Completed Trades</h5>
+            {%for trade in completed%}
+            <p><a href="/trades/show/{{trade.id}}">{{trade.item}}</a></p>
+            {%endfor%}
+          </div>
+        </div>
       </div>
-      {%endblock%}
+    {%endblock%}
   </body>
 </html>
