@@ -7,50 +7,90 @@
   </head>
   <body>
     {%block content%}
-    {% if messages %}
-      <ul class="messages">
-          {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-              {{ message }}
-          </li>
-          {% endfor %}
-      </ul>
-    {% endif %}
-    <h1>Add a Trade!!! :)</h1>
-    <form action="/trades/create" method = "post">
-      {%csrf_token%}
-      <p>Item Name: <input type="text" name="item"></p>
-      <p>Item Category: 
-        <select name="category">
-          <option value="grocery">Grocery</option>
-          <option value="paper">Paper Products</option>
-          <option value="cleaning">Cleaning Supplies</option>
-          <option value="auto">Automotive</option>
-          <option value="himprove">Home Improvement</option>
-        </select>
-      </p>
-      <p>Item Quantity: 
-        <select name="quantity">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-        </select>
-      </p>
-      <p>Item Description:
-        <textarea name="description" cols="90" rows="10"></textarea>
-      </p>
-      <p>
-        <input type="submit" name="submit">
-      </p>
-    </form>
+    <div class="container">
+      {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+      <h1>Add a Trade!!! :)</h1>
+      <form action="/trades/create" method = "post">
+        {%csrf_token%}
+        <h4>Item Name: <input type="text" name="item"></p>
+        <h4>Category:</h4>
+        <div class="row">
+          <div class="one-third column">
+            <label>
+              <input type="radio" name="category" value="paper">
+              <img src="/static/images/paper.png" alt="paper"/>
+            </label>
+            <h5>Paper Products</h5>
+          </div>
+          <div class="one-third column">
+            <label>
+              <input type="radio" name="category" value="home">
+              <img src="/static/images/home.png" alt="home improvement"/>
+            </label>
+            <h5>Home Improvement</h5>
+          </div>
+          <div class="one-third column">
+            <label>
+              <input type="radio" name="category" value="grocery">
+              <img src="/static/images/grocery.png" alt="groceries"/>
+            </label>
+            <h5>Grocery</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="one-third column">
+            <label>
+              <input type="radio" name="category" value="cleaning">
+              <img src="/static/images/clean.png" alt="cleaning supplies">
+            </label>
+            <h5>Cleaning Supplies</h5>
+          </div>
+            <div class="one-third column">
+              <label>
+                <input type="radio" name="category" value="automotive">
+                <img src="/static/images/automotive.png" alt="automotive">
+              </label>
+              <h5>Automotive</h5>
+            </div>
+              <div class="one-third column">
+                <label>
+                  <input type="radio" name="category" value="office">
+                  <img src="/static/images/office.png" alt="office">
+                </label>
+                <h5>Office Supplies</h5>
+              </div>
+        </div>
+        <p>Item Quantity:
+          <select name="quantity">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </p>
+        <p>Item Description:
+          <textarea name="description" cols="90" rows="10"></textarea>
+        </p>
+        <p>
+          <input type="submit" name="submit">
+        </p>
+      </form>
+    </div>
     {%endblock%}
   </body>
 </html>

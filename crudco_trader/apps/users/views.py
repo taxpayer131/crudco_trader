@@ -10,9 +10,11 @@ import bcrypt
 
 # Create your views here.
 def index(request):
-    login = LoginForm()
-    return render(request, 'users/login.html', {'form':login})
-    return HttpResponse("view the home page")
+    if 'id' not in request.session:
+        login = LoginForm()
+        return render(request, 'users/login.html', {'form':login})
+    else:
+        return redirect('/trades/')
 def login(request):
     errors = User.objects.login_validator(request.POST)
     if len(errors):
@@ -26,9 +28,11 @@ def login(request):
         return redirect('../trades/')
     return HttpResponse("login")
 def new(request):
-    register = RegistrationForm()
-    return render(request, 'users/register.html', {'form': register})
-    return HttpResponse("view a new user page")
+    if 'id' not in request.session:
+        register = RegistrationForm()
+        return render(request, 'users/register.html', {'form': register})
+    else:
+        return redirect('/trades/')
 def create(request):
     errors = User.objects.registration_validator(request.POST)
     if len(errors):
@@ -50,24 +54,26 @@ def create(request):
         return redirect('../trades/')
     return HttpResponse("create create create a user")
 def profile(request, user_id):
-    id = request.session['id']
-    user = User.objects.get(id = user_id)
-    mytrades = Trade.objects.filter(originator = user)
-    available = mytrades.filter(status = 'active')
-    mypending = mytrades.filter(status = 'pending')
-    completed = mytrades.filter(status = 'completed')
-    pending = Trade.objects.filter(recipient = user)    
-    pending = pending.filter(status = 'pending')
-    context = {
-        'id':id,
-        'user': user,
-        'available': available,
-        'mypending': mypending,
-        'pending': pending,
-        'completed': completed,
-    }
-    return render(request, 'users/profile.html', context)
-    return HttpResponse("view some info about a user")
+    if 'id' not in request.session:
+        return redirect('/')
+    else:
+        id = request.session['id']
+        user = User.objects.get(id = user_id)
+        mytrades = Trade.objects.filter(originator = user)
+        available = mytrades.filter(status = 'active')
+        mypending = mytrades.filter(status = 'pending')
+        completed = mytrades.filter(status = 'completed')
+        pending = Trade.objects.filter(recipient = user)    
+        pending = pending.filter(status = 'pending')
+        context = {
+            'id':id,
+            'user': user,
+            'available': available,
+            'mypending': mypending,
+            'pending': pending,
+            'completed': completed,
+        }
+        return render(request, 'users/profile.html', context)
 def edit(request):
     return HttpResponse("view a page to edit user profile..coming soon")
 def update(request):
