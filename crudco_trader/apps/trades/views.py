@@ -30,6 +30,8 @@ def create(request):
             originator = User.objects.get(id = request.session['id'])
             print originator.first_name
             item = request.POST['item']
+            if item is "other":
+                item = request.POST['other']
             status = 'active'
             category = request.POST['category']
             description = request.POST['description']

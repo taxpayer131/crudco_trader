@@ -21,7 +21,19 @@
       <h1>Add a Trade!!! :)</h1>
       <form action="/trades/create" method = "post">
         {%csrf_token%}
-        <h4>Item Name: <input type="text" name="item"></p>
+        <h4>Item Name:
+          <select name="item">
+            <option value="other">Other</option>
+            <option value="towel">Paper Towels</option>
+            <option value="beef">Beef</option>
+            <option value="cheese">Cheese</option>
+            <option value="fish">Fish</option>
+            <option value="poultry">Poultry</option>
+            <option value="tire">Car Tires</option>
+            <option value="toilet">Toilet Paper</option>
+            <option value="vegetables">Vegetables</option>
+          </select>
+          Other: <input type="text" name="other">
         <h4>Category:</h4>
         <div class="row">
           <div class="one-third column">

@@ -7,6 +7,11 @@ from ..users.models import User
 class TradeManager(models.Manager):
     def creation_validator(self,postData):
         errors = {}
+        if 'category' not in  postData:
+            errors['category'] = "Category required"
+        if postData['item'] == "other":
+            if len(postData['other'])<1:
+                errors ['item'] = "Item name required"
         if len(postData['item']) < 1:
             errors ['item'] = "Item name required"
         if len(postData['item']) < 3:
