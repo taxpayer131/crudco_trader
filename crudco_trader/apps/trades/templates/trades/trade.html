@@ -7,23 +7,42 @@
   </head>
   <body>
     {%block content%}
-      <h1>Here is a trade!!!</h1>
-      <h2>Item: {{trade.item}}</h2>
-      <h2>Courtesy of: <a href="/profile/{{trade.originator.id}}">{{trade.originator.username}}</a></h2>
-      <h2>Quantity: {{trade.quantity}}</h2>
-      <h2>Description: {{trade.description}}</h2>
-      {%if trade.recipient is null%}
-        <a href="/trades/receive/{{trade.id}}">
-          <button type="button" name="claim">Claim Trade</button></a>
-      {%endif%}
+      <div class="container">
+        <div class="row">
+          <div class="one-third column">
+            <h3>{{trade.item}}</h3>
+          </div>
+          <div class="one-third column">
+            <h3>Quantity: {{trade.quantity}}</h3>
+          </div>
+          <div class="one-third column">
+            <img src="/static/images/{{trade.category}}.png" alt="{{trade.category}}"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="one-half column">
+            <h3>Courtesy of: <a href="/profile/{{trade.originator.id}}">{{trade.originator.username}}</a></h3>
+            {%if page is 1%}
+            <a href="/trades/delete/{{trade.id}}">
+              <button type="button" name="delete">Delete</button></a>
+            {%endif%}
+          </div>
+          <div class="one-half column">
+            <h3>Claimed by:
+              {%if trade.recipient is null and page is not 1%}
+                <a href="/trades/receive/{{trade.id}}">
+                  <button type="button" name="claim">Claim Trade</button></a>
+              {%else%}
+              <a href="/profile/{{trade.recipient.id}}">{{trade.recipient.username}}</a></h3>
+              {%endif%}
+          </div>
+        </div>
+      </div>
+      <h3>Description: {{trade.description}}</h3>
       {%if page is 1 or page is 2%}
         {%if page is 2%}
         <a href="/trades/complete/{{trade.id}}">
           <button type="button" name="complete">Complete</button></a>
-        {%endif%}
-        {%if page is 1%}
-        <a href="/trades/delete/{{trade.id}}">
-          <button type="button" name="delete">Delete</button></a>
         {%endif%}
         <h3>Trade Coordination</h3>
         <p>Please use the discussion area below to coordinate logistics of your trade.</p>
@@ -34,13 +53,14 @@
             <a href="/communication/delete/{{comment.id}}">Delete</a>
           {%endif%}</p>
         {%endfor%}
-        <form action="/communication/create/{{trade.id}}" method='post'>
-          {%csrf_token%}
-          <textarea name="comment" cols="90" rows="10"></textarea>
-          <p><input type="submit" name="submit" value="submit"></p>
-        </form>
+        {%if trade.status == "pending"%}
+          <form action="/communication/create/{{trade.id}}" method='post'>
+            {%csrf_token%}
+            <textarea name="comment" cols="90" rows="10"></textarea>
+            <p><input type="submit" name="submit" value="submit"></p>
+          </form>
+        {%endif%}
       {%endif%}
-      <a href="/communication/create/{{trade.id}}">Create???</a>
     {%endblock%}
   </body>
 </html>
