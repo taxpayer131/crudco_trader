@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from .forms import LoginForm, RegistrationForm
 from .models import User
+from ..communication.models import Review
 from ..trades.models import Trade
 import bcrypt
 
@@ -26,7 +27,6 @@ def login(request):
         temp = User.objects.get(username = username)
         request.session['id'] = temp.id
         return redirect('../trades/')
-    return HttpResponse("login")
 def new(request):
     if 'id' not in request.session:
         register = RegistrationForm()
@@ -52,12 +52,12 @@ def create(request):
         temp = User.objects.get(username = username)
         request.session['id'] = temp.id
         return redirect('../trades/')
-    return HttpResponse("create create create a user")
 def profile(request, user_id):
     if 'id' not in request.session:
         return redirect('/')
     else:
         id = request.session['id']
+        me = User.objects.get(id = id)
         user = User.objects.get(id = user_id)
         mytrades = Trade.objects.filter(originator = user)
         available = mytrades.filter(status = 'active')
@@ -65,13 +65,15 @@ def profile(request, user_id):
         completed = mytrades.filter(status = 'completed')
         pending = Trade.objects.filter(recipient = user)    
         pending = pending.filter(status = 'pending')
+        reviews = Review.objects.filter(reviewee = user)
         context = {
-            'id':id,
-            'user': user,
+            'user': me,
+            'profile': user,
             'available': available,
             'mypending': mypending,
             'pending': pending,
             'completed': completed,
+            'reviews': reviews,
         }
         return render(request, 'users/profile.html', context)
 def edit(request):

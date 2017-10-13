@@ -12,7 +12,7 @@
       <div class="container">
         <div class="row">
           <div class="four columns">
-            <h4>User: {{user.username}}</h4>
+            <h4>User: {{profile.username}}</h4>
             <h5>Trades completed: {{trade_count}}</h5>
           </div>
           <div class="eight columns">
@@ -42,6 +42,10 @@
             {%endfor%}
           </div>
         </div>
+        <h5>What people who have traded with {{profile.username}} have to say:</h5>
+        {%for review in reviews%}
+        {{review.review}} - {{review.reviewer.username}} on {{review.created_at}}
+        {%endfor%}
       </div>
     {%endblock%}
   </body>

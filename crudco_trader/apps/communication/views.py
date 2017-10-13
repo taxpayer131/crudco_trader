@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, HttpResponse, reverse
-from .models import Comment, CommentManager
+from .models import Comment, CommentManager, Review, ReviewManager
 from ..trades.models import Trade
 from ..users.models import User
 
@@ -24,6 +24,22 @@ def read(request, message_id):
         'conversation': conversation,
     }
     return render(request, 'communication/edit.html', context)
+def review(request, user_id):
+    errors = Review.objects.review_validator(request.POST)
+    if len(errors):
+        for tag, error in errors.iteritems():
+            messages.error(request, error, extra_tags=tag)
+        id = request.POST['trade']
+        return redirect(reverse('trades:show', kwargs={ 'trade_id': id }))
+    else:
+        reviewer = User.objects.get(id = request.session['id'])
+        reviewee = User.objects.get(id = user_id)
+        review = request.POST['review']
+        rating = request.POST['rating']
+        id = request.POST['id']
+        trade = Trade.objects.get(id = id)
+        Review.objects.create(reviewer = reviewer, reviewee = reviewee, review = review, stars = rating, trade = trade)
+        return redirect(reverse('trades:show', kwargs={ 'trade_id': id }))
 def update(request):
     return HttpResponse("process a request to edit a comment")
 def delete(request):
