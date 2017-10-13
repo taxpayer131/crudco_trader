@@ -61,6 +61,37 @@
             <p><input type="submit" name="submit" value="submit"></p>
           </form>
         {%endif%}
+        {%if trade.status == "completed"%}
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+              {{ message }}
+              </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          {%if page is 1%}
+            <form action="/communication/review/{{trade.recipient.id}}" method="POST">
+          {%else%}
+            <form action="/communication/review/{{trade.originator.id}}" method="POST">
+          {%endif%}
+            {% csrf_token %}
+            <h6>Review:</h6> <textarea name="review" rows="8" cols="80"></textarea>
+            <h6>Rating:
+              <select name="rating">
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+              </select> stars
+            </h6>
+            <input type="hidden" name="id" value="{{trade.id}}">
+            <p><input type="submit" name="submit" value="submit"></p>
+          </form>
+        {%endif%}
       {%endif%}
     {%endblock%}
   </body>

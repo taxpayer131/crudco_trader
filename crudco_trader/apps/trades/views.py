@@ -5,7 +5,7 @@ from django.contrib import messages
 from ..users.models import User
 from ..communication.models import Comment, CommentManager
 from .models import Trade
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, reverse
 
 # Create your views here.
 def add(request):
@@ -37,6 +37,9 @@ def create(request):
             description = request.POST['description']
             quantity = request.POST['quantity']
             Trade.objects.create(originator = originator, item = item, status = status, category = category, description = description, quantity = quantity)
+            trade = trade.objects.last()
+            trade_id = trade.id
+            return redirect(reverse('trades:show', kwargs={ 'trade_id': trade_id }))
             return redirect('/trades/')
 def edit(request):
     return HttpResponse("view a page to edit trade info/status")
@@ -64,7 +67,7 @@ def complete(request, trade_id):
         if trade.recipient == user:
             trade.status = 'completed'
             trade.save()
-            return redirect('/trades/')
+            return redirect(reverse('trades:show', kwargs={ 'trade_id': trade_id }))
         else:
             return redirect('/trades/')
 def delete(request, trade_id):
